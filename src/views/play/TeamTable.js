@@ -15,13 +15,13 @@ import Grid from "@material-ui/core/Grid";
 
 import IconButton from "@material-ui/core/IconButton";
 
+import useStickyState from "../../hooks/useStickyState";
 import Title from "./Title";
 
 export default function TeamTable(props) {
   const { teamName } = props;
-  const [points, setPoints] = React.useState(0);
-
-  const [team, setTeam] = React.useState([]);
+  const [points, setPoints] = useStickyState(0, teamName + "Points");
+  const [team, setTeam] = useStickyState([], teamName + "Players");
   const [name, setName] = React.useState("");
   const classes = useStyles();
 
