@@ -8,14 +8,19 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 import IconButton from "@material-ui/core/IconButton";
 
 import Title from "./Title";
 
 export default function TeamTable(props) {
-  const { teamName, points } = props;
+  const { teamName } = props;
+  const [points, setPoints] = React.useState(0);
+
   const [team, setTeam] = React.useState([]);
   const [name, setName] = React.useState("");
   const classes = useStyles();
@@ -35,9 +40,24 @@ export default function TeamTable(props) {
     <div className={classes.root}>
       <div>
         <Title>{teamName}</Title>
-        <Typography component="p" variant="h6">
-          Points: {points}
-        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <IconButton onClick={() => setPoints((prev) => --prev)}>
+              <RemoveIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography component="p" variant="h6">
+              Points: {points}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <IconButton onClick={() => setPoints((prev) => ++prev)}>
+              <AddIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+
         <Table size="small">
           <TableHead>
             <TableRow>
