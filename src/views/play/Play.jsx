@@ -9,8 +9,13 @@ import Paper from "@material-ui/core/Paper";
 import logo from "../../logo.png";
 import GameBoard from "./GameBoard";
 import TeamTable from "./TeamTable";
+import useStickyState from "../../hooks/useStickyState";
 
 export default function Play() {
+  const [teamOneActive, setTeamOneActive] = useStickyState(
+    false,
+    "teamOneActive"
+  );
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -23,7 +28,12 @@ export default function Play() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
+              <Paper
+                className={fixedHeightPaper}
+                elevation={teamOneActive && 24}
+                onClick={() => setTeamOneActive(true)}
+                style={teamOneActive ? selectedStyle : {}}
+              >
                 <TeamTable teamName="Team One" />
               </Paper>
             </Grid>
@@ -33,7 +43,12 @@ export default function Play() {
               </Paper>
             </Grid>
             <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
+              <Paper
+                className={fixedHeightPaper}
+                elevation={!teamOneActive && 24}
+                onClick={() => setTeamOneActive(false)}
+                style={!teamOneActive ? selectedStyle : {}}
+              >
                 <TeamTable teamName="Team Two" />
               </Paper>
             </Grid>
@@ -92,6 +107,11 @@ const useStyles = makeStyles((theme) => ({
     height: "80vh",
   },
 }));
+
+const selectedStyle = {
+  position: "relative",
+  bottom: "20px",
+};
 
 // function Copyright() {
 //   return (
