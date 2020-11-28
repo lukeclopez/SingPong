@@ -2,18 +2,11 @@ import React from "react";
 import clsx from "clsx";
 
 import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Box from "@material-ui/core/Box";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import SettingsIcon from "@material-ui/icons/Settings";
 
+import logo from "../../logo.png";
 import GameBoard from "./GameBoard";
 import TeamTable from "./TeamTable";
 
@@ -23,26 +16,10 @@ export default function Play() {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            SingPong!
-          </Typography>
-          <IconButton color="inherit">
-            <SettingsIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+        <div className={classes.gameLogo}>
+          <img src={logo} height={80} />
+        </div>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={4}>
@@ -73,7 +50,7 @@ export default function Play() {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    backgroundColor: "grey",
+    backgroundColor: theme.palette.secondary.main,
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -85,12 +62,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 8px",
     ...theme.mixins.toolbar,
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+  gameLogo: {
+    padding: theme.spacing(2),
+    maxHeight: "3em",
   },
   menuButton: {
     marginRight: 36,

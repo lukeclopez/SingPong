@@ -72,6 +72,6 @@ const useStyles = makeStyles({
   },
 });
 
-const wordSet = words[config.getWordSet()];
-const firstWord = getNewWord("Set 1");
-const startingBackIndex = 2;
+const chosenSet = config.getWordSet();
+const wordSet = words[chosenSet];
+const firstWord = getNewWord(chosenSet);
