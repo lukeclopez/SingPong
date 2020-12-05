@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 import * as config from "../../services/config";
 
@@ -23,6 +25,11 @@ export default function SettingsModal(props) {
     >
       <Fade in={open}>
         <div className={classes.paper}>
+          <div>
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </div>
           <h2 id="transition-modal-title">Transition modal</h2>
           <p id="transition-modal-description">
             react-transition-group animates me.

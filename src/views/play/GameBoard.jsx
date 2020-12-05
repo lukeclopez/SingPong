@@ -72,7 +72,10 @@ export default function GameBoard() {
           <SettingsIcon />
         </IconButton>
       </div>
-      <SettingsModal open={settingsOpen} />
+      <SettingsModal
+        open={settingsOpen}
+        handleClose={() => setSettingsOpen(false)}
+      />
     </div>
   );
 }
