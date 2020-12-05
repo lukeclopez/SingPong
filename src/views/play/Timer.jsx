@@ -9,7 +9,7 @@ import RestartIcon from "@material-ui/icons/Restore";
 import * as config from "../../services/config";
 
 const time = new Date();
-time.setSeconds(time.getSeconds() + config.getTimeLimit());
+time.setSeconds(time.getSeconds() + config.getSetting("timeLimit"));
 
 export default function Timer() {
   const { seconds, minutes, isRunning, resume, pause, restart } = useTimer({
@@ -19,14 +19,14 @@ export default function Timer() {
   const classes = useStyles();
 
   const playButtonAction = () => {
-    if (seconds < 1 && minutes < 1) restartIn(config.getTimeLimit());
+    if (seconds < 1 && minutes < 1) restartIn(config.getSetting("timeLimit"));
     else if (!isRunning) resume();
     else if (isRunning) pause();
   };
 
   const restartIn = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + config.getTimeLimit());
+    time.setSeconds(time.getSeconds() + config.getSetting("timeLimit"));
     restart(time);
   };
 
