@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import SkipRight from "@material-ui/icons/SkipNext";
 import EmptyIcon from "@material-ui/icons/SettingsBackupRestore";
 import ScrapGameIcon from "@material-ui/icons/Delete";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import useStickyState from "../../hooks/useStickyState";
 import * as config from "../../services/config";
@@ -32,10 +33,11 @@ export default function GameBoard() {
   const onScrapGame = () => {
     if (window.confirm("Are you sure you want to start a new game?")) {
       localStorage.clear();
-      onSkipWord();
       window.location.reload();
     }
   };
+
+  const onOpenSettings = () => {};
 
   return (
     <div className={classes.root}>
@@ -64,6 +66,9 @@ export default function GameBoard() {
         <IconButton onClick={onScrapGame}>
           <ScrapGameIcon />
         </IconButton>
+        <IconButton onClick={onOpenSettings}>
+          <SettingsIcon />
+        </IconButton>
       </div>
     </div>
   );
@@ -87,6 +92,6 @@ const useStyles = makeStyles({
   },
 });
 
-const chosenSet = config.getWordSet();
+const chosenSet = config.getSetting("wordSet");
 const wordSet = words[chosenSet];
-const firstWord = getNewWord(chosenSet);
+const firstWord = getNewWord(wordSet);
