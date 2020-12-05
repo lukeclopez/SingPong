@@ -10,12 +10,14 @@ import ScrapGameIcon from "@material-ui/icons/Delete";
 import SettingsIcon from "@material-ui/icons/Settings";
 
 import useStickyState from "../../hooks/useStickyState";
+import SettingsModal from "../settings/SettingsModal";
 import * as config from "../../services/config";
 import words from "../../data/words.json";
 import Title from "./Title";
 import Timer from "./Timer";
 
 export default function GameBoard() {
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
   const [words, setWords] = useStickyState(wordSet, "words");
   const [currentWord, setCurrentWord] = useStickyState(
     firstWord,
@@ -66,10 +68,11 @@ export default function GameBoard() {
         <IconButton onClick={onScrapGame}>
           <ScrapGameIcon />
         </IconButton>
-        <IconButton onClick={onOpenSettings}>
+        <IconButton onClick={() => setSettingsOpen(true)}>
           <SettingsIcon />
         </IconButton>
       </div>
+      <SettingsModal open={settingsOpen} />
     </div>
   );
 }
