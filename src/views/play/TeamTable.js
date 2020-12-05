@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import shortid from "shortid";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -29,6 +30,8 @@ export default function TeamTable(props) {
     e.preventDefault();
     e.stopPropagation();
     if (!name) return;
+    if (team.includes(name))
+      return window.alert("Duplicate names not allowed!");
     setTeam((prev) => [...prev, name]);
     setName("");
   };
@@ -74,9 +77,9 @@ export default function TeamTable(props) {
           <TableBody>
             {team.map((name) => (
               <TableRow
-                key={name}
-                onClick={(e) => onRemovePlayer(e, name)}
                 className={classes.row}
+                key={shortid.generate()}
+                onClick={(e) => onRemovePlayer(e, name)}
               >
                 <TableCell>{name}</TableCell>
               </TableRow>
