@@ -27,13 +27,20 @@ export default function TeamTable(props) {
 
   const onAddPlayer = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     if (!name) return;
     setTeam((prev) => [...prev, name]);
     setName("");
   };
 
-  const onRemovePlayer = (removeName) => {
+  const onRemovePlayer = (e, removeName) => {
+    e.stopPropagation();
     setTeam((prev) => prev.filter((n) => n !== removeName));
+  };
+
+  const addPoints = (e, amount) => {
+    e.stopPropagation();
+    setPoints((prev) => prev + amount);
   };
 
   return (
@@ -42,7 +49,7 @@ export default function TeamTable(props) {
         <Title>{teamName}</Title>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <IconButton onClick={() => setPoints((prev) => --prev)}>
+            <IconButton onClick={(e) => addPoints(e, -1)}>
               <RemoveIcon />
             </IconButton>
           </Grid>
@@ -52,7 +59,7 @@ export default function TeamTable(props) {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <IconButton onClick={() => setPoints((prev) => ++prev)}>
+            <IconButton onClick={(e) => addPoints(e, 1)}>
               <AddIcon />
             </IconButton>
           </Grid>
@@ -68,7 +75,7 @@ export default function TeamTable(props) {
             {team.map((name) => (
               <TableRow
                 key={name}
-                onClick={() => onRemovePlayer(name)}
+                onClick={(e) => onRemovePlayer(e, name)}
                 className={classes.row}
               >
                 <TableCell>{name}</TableCell>
@@ -80,6 +87,7 @@ export default function TeamTable(props) {
       <div>
         <form onSubmit={onAddPlayer}>
           <TextField
+            onClick={(e) => e.stopPropagation()}
             onChange={(e) => setName(e.target.value)}
             value={name}
             label="New Player"
