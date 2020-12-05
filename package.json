@@ -2,6 +2,7 @@
   "name": "sing-pong",
   "homepage": "https://lukeclopez.github.io/SingPong",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@material-ui/icons": "^4.9.1",
