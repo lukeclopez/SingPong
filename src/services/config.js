@@ -2,7 +2,7 @@ const settingsKey = "settings";
 
 const defaultSettings = {
   timeLimit: 61,
-  wordSet: "Set 1",
+  wordSet: "Theocratic",
 };
 
 export const setSetting = (key, value) => {
