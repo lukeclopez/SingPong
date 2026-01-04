@@ -3,6 +3,8 @@ const settingsKey = "settings";
 const defaultSettings = {
   timeLimit: 61,
   wordSet: "Theocratic",
+  doubleMode: false,
+  wordSet2: "Theocratic",
 };
 
 export const setSetting = (key, value) => {
