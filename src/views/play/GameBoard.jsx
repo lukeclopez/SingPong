@@ -23,25 +23,50 @@ export default function GameBoard() {
     firstWord,
     "currentWord"
   );
+  
+  const [words2, setWords2] = useStickyState(wordSet2, "words2");
+  const [currentWord2, setCurrentWord2] = useStickyState(
+    firstWord2,
+    "currentWord2"
+  );
+
   const [usedWords, setUsedWords] = useStickyState([], "usedWords");
   const classes = useStyles();
 
   const onSkipWord = () => {
+    // Process First Word Set
     if (words.length === 0) setWords(wordSet);
     const newWord = getNewWord(words);
     
+    // Process Second Word Set if in Double Mode
+    let newWord2 = null;
+    if (doubleMode) {
+      if (words2.length === 0) setWords2(wordSet2);
+      newWord2 = getNewWord(words2);
+    }
+    
     if (currentWord) {
-      setUsedWords((prev) => [currentWord, ...prev]);
+      const entry = doubleMode 
+        ? `${chosenSet}: ${currentWord}, ${chosenSet2}: ${currentWord2}`
+        : currentWord;
+      setUsedWords((prev) => [entry, ...prev]);
     }
     
     setWords((prev) => prev.filter((w) => w !== newWord));
     setCurrentWord(newWord);
+
+    if (doubleMode) {
+      setWords2((prev) => prev.filter((w) => w !== newWord2));
+      setCurrentWord2(newWord2);
+    }
   };
 
   const onScrapGame = () => {
     if (window.confirm("Are you sure you want to start a new game?")) {
       window.localStorage.removeItem("words");
       window.localStorage.removeItem("currentWord");
+      window.localStorage.removeItem("words2");
+      window.localStorage.removeItem("currentWord2");
       window.localStorage.removeItem("usedWords");
       window.localStorage.removeItem("teamOneActive");
       window.location.reload();
@@ -61,9 +86,26 @@ export default function GameBoard() {
             </IconButton>
           </Grid>
           <Grid item xs={4}>
-            <Typography component="p" variant="h4">
-              {currentWord || <EmptyIcon />}
-            </Typography>
+            {doubleMode ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div>
+                  <Typography variant="caption" color="textSecondary">{chosenSet}</Typography>
+                  <Typography component="p" variant="h5">
+                    {currentWord || <EmptyIcon />}
+                  </Typography>
+                </div>
+                <div style={{ borderTop: '1px solid #eee', paddingTop: '10px' }}>
+                  <Typography variant="caption" color="textSecondary">{chosenSet2}</Typography>
+                  <Typography component="p" variant="h5">
+                    {currentWord2 || <EmptyIcon />}
+                  </Typography>
+                </div>
+              </div>
+            ) : (
+              <Typography component="p" variant="h4">
+                {currentWord || <EmptyIcon />}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={4}>
             <IconButton onClick={onSkipWord}>
@@ -77,7 +119,7 @@ export default function GameBoard() {
       <div style={{ width: '100%' }}>
         <div>
           <Typography component="p" variant="body2" color="textSecondary" style={{ marginLeft: 8 }}>
-              Word Set: {chosenSet}
+              Word Set: {chosenSet} {doubleMode && `& ${chosenSet2}`}
           </Typography>
           <Typography component="p" variant="body2" color="textSecondary" style={{ marginLeft: 8 }}>
               {words.length} words remaining
@@ -128,6 +170,10 @@ const useStyles = makeStyles({
   },
 });
 
+const doubleMode = config.getSetting("doubleMode");
 const chosenSet = config.getSetting("wordSet");
+const chosenSet2 = config.getSetting("wordSet2");
 const wordSet = words[chosenSet];
+const wordSet2 = words[chosenSet2];
 const firstWord = getNewWord(wordSet);
+const firstWord2 = doubleMode ? getNewWord(wordSet2) : null;

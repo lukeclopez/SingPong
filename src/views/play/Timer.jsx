@@ -13,7 +13,7 @@ time.setSeconds(time.getSeconds() + config.getSetting("timeLimit"));
 
 export default function Timer() {
   const { seconds, minutes, isRunning, resume, pause, restart } = useTimer({
-    time,
+    expiryTimestamp: time,
     onExpire: () => {},
   });
   const classes = useStyles();

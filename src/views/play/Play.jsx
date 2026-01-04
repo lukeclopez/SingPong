@@ -30,7 +30,7 @@ export default function Play() {
             <Grid item xs={4}>
               <Paper
                 className={fixedHeightPaper}
-                elevation={teamOneActive && 24}
+                elevation={teamOneActive ? 24 : 1}
                 onClick={() => setTeamOneActive(true)}
                 style={teamOneActive ? selectedStyle : {}}
               >
@@ -45,7 +45,7 @@ export default function Play() {
             <Grid item xs={4}>
               <Paper
                 className={fixedHeightPaper}
-                elevation={!teamOneActive && 24}
+                elevation={!teamOneActive ? 24 : 1}
                 onClick={() => setTeamOneActive(false)}
                 style={!teamOneActive ? selectedStyle : {}}
               >

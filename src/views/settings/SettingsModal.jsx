@@ -11,6 +11,9 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 
 import * as config from "../../services/config";
 import words from "../../data/wordsets";
@@ -20,11 +23,18 @@ export default function SettingsModal(props) {
   const classes = useStyles();
 
   const [wordSet, setWordSet] = React.useState(config.getSetting("wordSet"));
+  const [doubleMode, setDoubleMode] = React.useState(config.getSetting("doubleMode") || false);
+  const [wordSet2, setWordSet2] = React.useState(config.getSetting("wordSet2") || "Theocratic");
 
   const onSave = () => {
     config.setSetting("wordSet", wordSet);
+    config.setSetting("doubleMode", doubleMode);
+    config.setSetting("wordSet2", wordSet2);
     window.localStorage.removeItem("words");
     window.localStorage.removeItem("currentWord");
+    window.localStorage.removeItem("words2");
+    window.localStorage.removeItem("currentWord2");
+    window.localStorage.removeItem("usedWords");
     window.location.reload();
   };
 
@@ -64,6 +74,37 @@ export default function SettingsModal(props) {
                 ))}
               </Select>
             </FormControl>
+
+            <FormControlLabel
+              control={
+                  <Switch
+                      checked={doubleMode}
+                      onChange={(e) => setDoubleMode(e.target.checked)}
+                      name="doubleMode"
+                      color="primary"
+                  />
+              }
+              label="Double Mode"
+              className={classes.formControl}
+            />
+
+            {doubleMode && (
+              <FormControl className={classes.formControl}>
+                  <InputLabel id="word-set-2-select-label">Word Set 2</InputLabel>
+                  <Select
+                  labelId="word-set-2-select-label"
+                  id="word-set-2-select"
+                  value={wordSet2}
+                  onChange={(e) => setWordSet2(e.target.value)}
+                  >
+                  {Object.keys(words).map((key) => (
+                      <MenuItem key={key} value={key}>
+                      {key}
+                      </MenuItem>
+                  ))}
+                  </Select>
+              </FormControl>
+            )}
           </div>
 
           <div className={classes.footer}>
