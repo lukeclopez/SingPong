@@ -9,7 +9,7 @@ export const setSetting = (key, value) => {
   validateKey(key);
   const settings = JSON.parse(localStorage.getItem(settingsKey));
   settings[key] = value;
-  window.localStorage.setItem(settings, JSON.stringify(settings));
+  window.localStorage.setItem(settingsKey, JSON.stringify(settings));
 };
 
 export const getSetting = (key) => {
