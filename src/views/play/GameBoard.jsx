@@ -12,7 +12,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import useStickyState from "../../hooks/useStickyState";
 import SettingsModal from "../settings/SettingsModal";
 import * as config from "../../services/config";
-import words from "../../data/words.json";
+import words from "../../data/wordsets";
 import Title from "./Title";
 import Timer from "./Timer";
 
@@ -23,18 +23,27 @@ export default function GameBoard() {
     firstWord,
     "currentWord"
   );
+  const [usedWords, setUsedWords] = useStickyState([], "usedWords");
   const classes = useStyles();
 
   const onSkipWord = () => {
     if (words.length === 0) setWords(wordSet);
     const newWord = getNewWord(words);
+    
+    if (currentWord) {
+      setUsedWords((prev) => [currentWord, ...prev]);
+    }
+    
     setWords((prev) => prev.filter((w) => w !== newWord));
     setCurrentWord(newWord);
   };
 
   const onScrapGame = () => {
     if (window.confirm("Are you sure you want to start a new game?")) {
-      localStorage.clear();
+      window.localStorage.removeItem("words");
+      window.localStorage.removeItem("currentWord");
+      window.localStorage.removeItem("usedWords");
+      window.localStorage.removeItem("teamOneActive");
       window.location.reload();
     }
   };
@@ -63,14 +72,35 @@ export default function GameBoard() {
           </Grid>
         </Grid>
         <Timer />
+
       </div>
-      <div>
-        <IconButton onClick={onScrapGame}>
-          <ScrapGameIcon />
-        </IconButton>
-        <IconButton onClick={() => setSettingsOpen(true)}>
-          <SettingsIcon />
-        </IconButton>
+      <div style={{ width: '100%' }}>
+        <div>
+          <Typography component="p" variant="body2" color="textSecondary" style={{ marginLeft: 8 }}>
+              Word Set: {chosenSet}
+          </Typography>
+          <Typography component="p" variant="body2" color="textSecondary" style={{ marginLeft: 8 }}>
+              {words.length} words remaining
+          </Typography>
+          {usedWords.length > 0 && (
+            <div style={{ marginTop: 16, maxHeight: 100, overflowY: 'auto' }}>
+              <Typography variant="caption" color="textSecondary" display="block">
+                Used Words:
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {usedWords.join(", ")}
+              </Typography>
+            </div>
+          )}
+        </div>
+        <div style={{ display: 'flex', marginTop: 8, justifyContent: 'center' }}>
+            <IconButton onClick={onScrapGame}>
+            <ScrapGameIcon />
+            </IconButton>
+            <IconButton onClick={() => setSettingsOpen(true)}>
+            <SettingsIcon />
+            </IconButton>
+        </div>
       </div>
       <SettingsModal
         open={settingsOpen}
