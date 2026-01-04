@@ -23,7 +23,7 @@ export default function Play() {
     <div className={classes.root}>
       <main className={classes.content}>
         <div className={classes.gameLogo}>
-          <img src={logo} height={80} />
+          <img src={logo} height={80} alt="SingPong Logo" />
         </div>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>

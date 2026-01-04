@@ -73,7 +73,7 @@ export default function GameBoard() {
     }
   };
 
-  const onOpenSettings = () => {};
+
 
   return (
     <div className={classes.root}>
